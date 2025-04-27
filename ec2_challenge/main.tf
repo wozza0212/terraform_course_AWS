@@ -41,6 +41,9 @@ resource "aws_instance" "wevserver" {
 output "dbprivate" {
     value = aws_instance.DB.private_ip
 }
+output "webpublic" {
+    value = aws_instance.wevserver.public_ip
+}
 
 variable "ingressrules" {
     type = list(number)
@@ -50,6 +53,10 @@ variable "ingressrules" {
 variable "egressrules" {
     type = list(number)
     default = [80, 443]
+}
+
+resource "aws_eip" "myelasticip" {
+    instance = aws_instance.wevserver.id
 }
 
 resource "aws_security_group" "webtraffic" {
@@ -76,4 +83,8 @@ resource "aws_security_group" "webtraffic" {
         cidr_blocks = ["0.0.0.0/0"]
         }
     }
+}
+
+output "eipserver" {
+    value = aws_eip.myelasticip.public_ip
 }
