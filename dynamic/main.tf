@@ -52,11 +52,4 @@ resource "aws_security_group" "webtraffic" {
         cidr_blocks = ["0.0.0.0/0", "89.22.199.29/32"]
         }
     }
-
-    egress {
-        from_port = 443
-        to_port = 443
-        protocol = "TCP"
-        cidr_blocks = ["0.0.0.0/0", "89.22.199.29/32"]
-    }
 }
